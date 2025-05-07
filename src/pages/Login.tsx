@@ -1,10 +1,15 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../components/Navbar';
+import LoginCard from '../components/LoginCard';
+import Footer from '../components/Footer';
 
 function Login() {
   return (
-    <div>
-        
-    </div>
+    <>
+        <Navbar/>
+        <LoginCard/>
+        <Footer/>
+    </>
   )
 }
 

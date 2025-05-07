@@ -16,30 +16,16 @@ function Footer() {
           <h3 className="text-xl font-bold mb-4">Quick Links</h3>
           <ul>
             <li className="mb-2">
-              <a href="#features" className="text-gray-400 hover:text-white">
-                Features
-              </a>
+              <a href="#features" className="text-gray-400 hover:text-white">Features</a>
             </li>
             <li className="mb-2">
-              <a
-                href="#how-it-works"
-                className="text-gray-400 hover:text-white"
-              >
-                How It Works
-              </a>
+              <a href="#how-it-works" className="text-gray-400 hover:text-white">How It Works</a>
             </li>
             <li className="mb-2">
-              <a
-                href="#testimonials"
-                className="text-gray-400 hover:text-white"
-              >
-                Testimonials
-              </a>
+              <a href="#testimonials" className="text-gray-400 hover:text-white">Testimonials</a>
             </li>
             <li className="mb-2">
-              <a href="#events" className="text-gray-400 hover:text-white">
-                Trending Events
-              </a>
+              <a href="#events" className="text-gray-400 hover:text-white">Trending Events</a>
             </li>
           </ul>
         </div>
@@ -55,38 +41,16 @@ function Footer() {
           <h3 className="text-xl font-bold mb-4">Legal & Social</h3>
           <ul>
             <li className="mb-2">
-              <a href="#" className="text-gray-400 hover:text-white">
-                Privacy Policy
-              </a>
+              <a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a>
             </li>
             <li className="mb-2">
-              <a href="#" className="text-gray-400 hover:text-white">
-                Terms of Service
-              </a>
+              <a href="#" className="text-gray-400 hover:text-white">Terms of Service</a>
             </li>
           </ul>
           <div className="flex justify-center md:justify-start space-x-4 mt-4">
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white"
-              aria-label="Facebook"
-            >
-              Facebook
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white"
-              aria-label="Twitter"
-            >
-              Twitter
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white"
-              aria-label="LinkedIn"
-            >
-              LinkedIn
-            </a>
+            <a href="#" className="text-gray-400 hover:text-white">Facebook</a>
+            <a href="#" className="text-gray-400 hover:text-white">Twitter</a>
+            <a href="#" className="text-gray-400 hover:text-white">LinkedIn</a>
           </div>
         </div>
       </div>

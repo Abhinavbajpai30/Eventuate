@@ -5,17 +5,17 @@ function Testimonials() {
         {
           id: 1,
           quote: "Eventuate made planning our conference a breeze! The all-in-one platform saved us so much time and hassle.",
-          author: "Sarah K., Conference Organizer"
+          author: "Swati Ghosh, Conference Organizer"
         },
         {
           id: 2,
           quote: "The team collaboration features are a game-changer. We can easily coordinate tasks and communicate effectively.",
-          author: "John D., Event Manager"
+          author: "Joshit Dutta, Event Manager"
         },
         {
           id: 3,
           quote: "Discovering local events has never been easier. The dynamic feed keeps me updated on everything happening around me.",
-          author: "Emily R., Event Enthusiast"
+          author: "Khushi Dhole, Event Enthusiast"
         },
     ];
 
@@ -24,7 +24,6 @@ function Testimonials() {
     const nextTestimonial = () => {
         setCurrentTestimonialIndex((curr) => Math.min(curr+1, testimonials.length-1));
     }
-
     const prevTestimonial = () => {
         setCurrentTestimonialIndex((curr) => Math.max(curr-1, 0));
     }
@@ -44,18 +43,14 @@ function Testimonials() {
               <div className="absolute inset-y-0 left-0 flex items-center">
                 <button
                   onClick={prevTestimonial}
-                  className="bg-white bg-opacity-50 rounded-full p-2 ml-2 shadow-md hover:bg-opacity-75 focus:outline-none"
-                  aria-label="Previous Testimonial"
-                >
+                  className="bg-white bg-opacity-50 rounded-full p-2 ml-2 shadow-md hover:bg-opacity-75 focus:outline-none">
                   &lt;
                 </button>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <button
                   onClick={nextTestimonial}
-                  className="bg-white bg-opacity-50 rounded-full p-2 mr-2 shadow-md hover:bg-opacity-75 focus:outline-none"
-                  aria-label="Next Testimonial"
-                >
+                  className="bg-white bg-opacity-50 rounded-full p-2 mr-2 shadow-md hover:bg-opacity-75 focus:outline-none">
                   &gt;
                 </button>
               </div>

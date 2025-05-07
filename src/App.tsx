@@ -1,21 +1,18 @@
 import './App.css'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import HowItWorks from './components/HowItWorks'
-import Testimonials from './components/Testimonials'
-import TrendingEvents from './components/TrendingEvents'
-import Footer from './components/Footer'
+import {Routes, Route} from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 function App() {
 
   return (
     <>
-      <Navbar/>
-      <Hero/>
-      <HowItWorks/>
-      <Testimonials/>
-      <TrendingEvents/>
-      <Footer/>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
+      </Routes>
     </>
   )
 }
