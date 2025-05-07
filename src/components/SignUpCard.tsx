@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 function SignUpCard() {
   const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,6 +25,18 @@ function SignUpCard() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-gray-700 text-sm font-bold mb-2">Username</label>
+            <input
+              type="text"
+              id="username"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -70,9 +84,9 @@ function SignUpCard() {
           </div>
 
           <div className="text-center">
-            <a href="#" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+            <NavLink to={"/login"} className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
               Already have an account? Sign In
-            </a>
+            </NavLink>
           </div>
         </form>
       </div>

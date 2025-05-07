@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { NavLink } from 'react-router-dom';
 
 function LoginCard() {
     const [email, setEmail] = useState('');
@@ -44,9 +45,9 @@ function LoginCard() {
                 <a href="#" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 mr-4">
                   Forgot Password?
                 </a>
-                <a href="#" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                <NavLink to={"/signup"} className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                   Don't have an account? Sign Up
-                </a>
+                </NavLink>
               </div>
             </form>
           </div>
