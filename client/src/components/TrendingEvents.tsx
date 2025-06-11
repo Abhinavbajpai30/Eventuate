@@ -1,5 +1,3 @@
-import React from 'react'
-
 function TrendingEvents() {
     const events = [
         { id: 1, name: 'Tech Conference 2025', date: 'May 15, 2025', location: 'Gurugram', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsbP1SjH7EkE1TXIwAcnjd0wZOTem0iIlysA&s' },
