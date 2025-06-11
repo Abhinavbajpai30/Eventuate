@@ -18,7 +18,7 @@ function SignUpCard() {
       return;
     }
     try {
-      const res = await fetch('http://localhost:4000/api/signup', {
+      const res = await fetch('http://148.113.9.240:5039/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, fullName, email })
