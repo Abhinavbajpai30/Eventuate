@@ -70,7 +70,8 @@ function CreateEventForm() {
         throw new Error(errorData.message || 'Failed to create event');
       }
 
-      const data = await response.json();
+      // const data = await response.json();
+      await response.json();
       toast.success('Event created successfully!');
       navigate('/dashboard');
     } catch (error) {
