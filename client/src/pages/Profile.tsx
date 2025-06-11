@@ -19,7 +19,7 @@ const Profile: React.FC = () => {
         return;
       }
       try {
-        const res = await fetch('http://localhost:4000/api/profile', {
+        const res = await fetch('http://148.113.9.240:5039/api/profile', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
