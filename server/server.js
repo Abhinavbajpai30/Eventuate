@@ -3,7 +3,14 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./src/config/db');
 
-dotenv.config();
+dotenv.config({ path: '.env' });
+
+console.log('Environment check:');
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
+console.log('PORT:', process.env.PORT || 'Using default (4000)');
+console.log('NODE_ENV:', process.env.NODE_ENV || 'Not set');
+console.log('ALLOWED_ORIGINS:', process.env.ALLOWED_ORIGINS || 'Using defaults');
 
 connectDB();
 

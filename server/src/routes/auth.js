@@ -7,6 +7,9 @@ const Event = require('../models/Event');
 const Booking = require('../models/Booking');
 const auth = require('../middleware/auth');
 const router = express.Router();
+const dotenv = require('dotenv');
+
+dotenv.config({ path: '.env' });
 
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
