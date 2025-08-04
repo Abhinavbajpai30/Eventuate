@@ -46,7 +46,7 @@ const AttendeeDashboard = () => {
         if (filters[key]) params.append(key, filters[key]);
       });
 
-      const response = await axios.get(`http://localhost:4000/api/events?${params}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/events?${params}`);
       setEvents(response.data.events);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -81,7 +81,7 @@ const AttendeeDashboard = () => {
     setBookingSuccess(prev => ({ ...prev, [eventId]: '' }));
 
     try {
-      const response = await axios.post('http://localhost:4000/api/bookings', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`, {
         eventId: eventId,
         ticketCount: 1,
         specialRequests: ''

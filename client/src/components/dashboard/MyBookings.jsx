@@ -29,7 +29,7 @@ const MyBookings = () => {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:4000/api/bookings/my-bookings');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/my-bookings`);
       setBookings(response.data.bookings);
     } catch (error) {
       console.error('Error fetching bookings:', error);
@@ -80,7 +80,7 @@ const MyBookings = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:4000/api/bookings/${bookingId}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${bookingId}`);
       fetchBookings();
     } catch (error) {
       console.error('Error cancelling booking:', error);
@@ -94,7 +94,7 @@ const MyBookings = () => {
       setSelectedBooking(booking);
       setQrModalOpen(true);
       
-      const response = await axios.get(`http://localhost:4000/api/bookings/${booking._id}/qr`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${booking._id}/qr`);
       setQrCode(response.data.qrCode);
     } catch (error) {
       console.error('Error generating QR code:', error);
@@ -118,7 +118,7 @@ const MyBookings = () => {
     try {
       setDownloadingTickets(prev => ({ ...prev, [booking._id]: true }));
       
-      const response = await axios.get(`http://localhost:4000/api/bookings/${booking._id}/qr`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${booking._id}/qr`);
       
       const link = document.createElement('a');
       link.href = response.data.qrCode;

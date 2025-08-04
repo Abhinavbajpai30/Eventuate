@@ -35,7 +35,7 @@ const ManageBookings = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:4000/api/events/organizer/my-events');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/events/organizer/my-events`);
       setEvents(response.data.events);
       if (response.data.events.length > 0) {
         setSelectedEvent(response.data.events[0]._id);
@@ -49,7 +49,7 @@ const ManageBookings = () => {
 
   const fetchEventBookings = async (eventId) => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/bookings/events/${eventId}/bookings`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/events/${eventId}/bookings`);
       setBookings(response.data.bookings);
     } catch (error) {
       console.error('Error fetching event bookings:', error);
@@ -94,7 +94,7 @@ const ManageBookings = () => {
 
   const handleUpdateBookingStatus = async (bookingId, newStatus) => {
     try {
-      await axios.put(`http://localhost:4000/api/bookings/${bookingId}`, {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${bookingId}`, {
         status: newStatus
       });
       fetchEventBookings(selectedEvent); 
@@ -106,7 +106,7 @@ const ManageBookings = () => {
 
   const handleCheckIn = async (bookingId) => {
     try {
-      await axios.put(`http://localhost:4000/api/bookings/${bookingId}`, {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${bookingId}`, {
         checkInStatus: true
       });
       fetchEventBookings(selectedEvent); 

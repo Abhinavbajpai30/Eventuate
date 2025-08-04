@@ -56,8 +56,6 @@ function App() {
               </PrivateRoute>
             }
           />
-          
-          {/* Dashboard Routes */}
           <Route
             path="/dashboard"
             element={

@@ -6,11 +6,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Production builds
-dist/
-dist-ssr/
-build/
-
 # Environment variables
 .env
 .env.local
@@ -21,6 +16,10 @@ build/
 # Logs
 logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
 # Runtime data
 pids
@@ -53,6 +52,9 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+# dotenv environment variables file
+.env.test
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
@@ -62,6 +64,10 @@ jspm_packages/
 
 # Nuxt.js build / generate output
 .nuxt
+
+# Gatsby files
+.cache/
+public
 
 # Storybook build outputs
 .out
@@ -124,5 +130,42 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Vite
-.vite/
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Upload directories
+uploads/
+public/uploads/
+
+# PM2
+.pm2/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.yaml
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# IDE specific files
+.atom/
+.brackets.json
+.sublime-project
+.sublime-workspace 

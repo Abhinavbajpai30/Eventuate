@@ -192,7 +192,7 @@ const QRScanner = () => {
     try {
       stopScanning();
       
-      const response = await axios.post('http://localhost:4000/api/bookings/qr/verify', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/qr/verify`, {
         qrData: decodedText
       });
 

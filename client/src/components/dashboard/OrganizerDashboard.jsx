@@ -35,7 +35,7 @@ const OrganizerDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const eventsRes = await axios.get('http://localhost:4000/api/events/organizer/my-events?limit=5');
+      const eventsRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/events/organizer/my-events?limit=5`);
       
       const events = eventsRes.data.events;
       const totalEvents = events.length;

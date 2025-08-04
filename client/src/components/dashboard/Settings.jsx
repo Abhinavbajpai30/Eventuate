@@ -76,7 +76,7 @@ const Settings = () => {
 
   const loadUserSettings = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/auth/profile');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/auth/profile`);
       const userData = response.data.user;
       
       setAccountSettings({
@@ -133,7 +133,7 @@ const Settings = () => {
     setSuccess('');
 
     try {
-      await axios.put('http://localhost:4000/api/auth/profile', accountSettings);
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/auth/profile`, accountSettings);
       setSuccess('Account settings updated successfully!');
       setTimeout(() => setSuccess(''), 3000);
     } catch (error) {
@@ -192,7 +192,7 @@ const Settings = () => {
     setSuccess('');
 
     try {
-      await axios.put('http://localhost:4000/api/auth/change-password', {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/auth/change-password`, {
         currentPassword: securitySettings.currentPassword,
         newPassword: securitySettings.newPassword
       });
@@ -223,7 +223,7 @@ const Settings = () => {
     setSuccess('');
 
     try {
-      await axios.delete('http://localhost:4000/api/auth/account');
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/auth/account`);
       logout();
     } catch (error) {
       setError('Failed to delete account');

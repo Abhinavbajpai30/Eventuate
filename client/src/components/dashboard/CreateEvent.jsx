@@ -88,7 +88,7 @@ const CreateEvent = () => {
 
     try {
       const eventData = { ...formData, status: 'published' };
-      const response = await axios.post('http://localhost:4000/api/events', eventData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/events`, eventData);
       setSuccess('Event created successfully!');
       setTimeout(() => {
         window.location.href = '/dashboard/events';
@@ -112,7 +112,7 @@ const CreateEvent = () => {
 
     try {
       const draftData = { ...formData, status: 'draft' };
-      await axios.post('http://localhost:4000/api/events', draftData);
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/events`, draftData);
       setSuccess('Draft saved successfully!');
     } catch (error) {
       if (error.response?.data?.errors) {
