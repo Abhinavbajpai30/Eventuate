@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', require('./src/routes/auth'));
 app.use('/api/events', require('./src/routes/events'));
 app.use('/api/bookings', require('./src/routes/bookings'));
-app.use('/api/analytics', require('./src/routes/analytics'));
+
 
 // Basic route
 app.get('/', (req, res) => {

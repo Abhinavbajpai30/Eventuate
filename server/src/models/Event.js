@@ -109,6 +109,11 @@ eventSchema.virtual('availableSpots').get(function() {
   return Math.max(0, this.capacity - bookedCount);
 });
 
+// Virtual for booking count
+eventSchema.virtual('bookingCount').get(function() {
+  return this.bookings ? this.bookings.length : 0;
+});
+
 // Method to get event with bookings count
 eventSchema.methods.toEventJSON = function() {
   return {
@@ -129,6 +134,7 @@ eventSchema.methods.toEventJSON = function() {
     rating: this.rating,
     isSoldOut: this.isSoldOut,
     availableSpots: this.availableSpots,
+    bookingCount: this.bookingCount,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   };

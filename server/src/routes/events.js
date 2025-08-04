@@ -120,7 +120,8 @@ router.post('/', auth, [
   body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   body('capacity').isInt({ min: 1 }).withMessage('Capacity must be at least 1'),
   body('images').optional().isArray().withMessage('Images must be an array'),
-  body('tags').optional().isArray().withMessage('Tags must be an array')
+  body('tags').optional().isArray().withMessage('Tags must be an array'),
+  body('status').optional().isIn(['draft', 'published', 'cancelled', 'completed']).withMessage('Invalid status')
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -142,7 +143,8 @@ router.post('/', auth, [
       price,
       capacity,
       images = [],
-      tags = []
+      tags = [],
+      status = 'draft'
     } = req.body;
 
     const event = new Event({
@@ -155,7 +157,8 @@ router.post('/', auth, [
       price,
       capacity,
       images,
-      tags
+      tags,
+      status
     });
 
     await event.save();

@@ -7,13 +7,15 @@ import {
   CalendarToday as CalendarIcon,
   LocationOn as LocationIcon,
   AttachMoney as MoneyIcon,
-  Star as StarIcon
+  Star as StarIcon,
+  CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import axios from 'axios';
 
 const AttendeeDashboard = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bookingLoading, setBookingLoading] = useState({});
   const [filters, setFilters] = useState({
     category: '',
     location: '',
@@ -24,6 +26,8 @@ const AttendeeDashboard = () => {
     search: ''
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState({});
+  const [bookingError, setBookingError] = useState({});
 
   const categories = [
     'Music', 'Food & Drink', 'Workshops', 'Networking', 
@@ -69,6 +73,52 @@ const AttendeeDashboard = () => {
       priceMax: '',
       search: ''
     });
+  };
+
+  const handleBookEvent = async (eventId, eventTitle) => {
+    setBookingLoading(prev => ({ ...prev, [eventId]: true }));
+    setBookingError(prev => ({ ...prev, [eventId]: '' }));
+    setBookingSuccess(prev => ({ ...prev, [eventId]: '' }));
+
+    try {
+      const response = await axios.post('http://localhost:4000/api/bookings', {
+        eventId: eventId,
+        ticketCount: 1,
+        specialRequests: ''
+      });
+
+      setBookingSuccess(prev => ({ 
+        ...prev, 
+        [eventId]: `Successfully booked ${eventTitle}!` 
+      }));
+
+      // Refresh events to update booking counts
+      setTimeout(() => {
+        fetchEvents();
+        setBookingSuccess(prev => ({ ...prev, [eventId]: '' }));
+      }, 3000);
+
+    } catch (error) {
+      let errorMessage = 'Failed to book event';
+      
+      if (error.response?.data?.errors) {
+        errorMessage = error.response.data.errors.map(err => err.msg).join(', ');
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      setBookingError(prev => ({ 
+        ...prev, 
+        [eventId]: errorMessage 
+      }));
+
+      // Clear error after 5 seconds
+      setTimeout(() => {
+        setBookingError(prev => ({ ...prev, [eventId]: '' }));
+      }, 5000);
+    } finally {
+      setBookingLoading(prev => ({ ...prev, [eventId]: false }));
+    }
   };
 
   const EventCard = ({ event }) => (
@@ -138,12 +188,53 @@ const AttendeeDashboard = () => {
           </div>
         </div>
 
+        {/* Booking Status Messages */}
+        {bookingSuccess[event._id] && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-3 bg-green-50 border border-green-200 text-green-700 px-3 py-2 rounded-lg text-sm flex items-center"
+          >
+            <CheckCircleIcon className="h-4 w-4 mr-2" />
+            {bookingSuccess[event._id]}
+          </motion.div>
+        )}
+
+        {bookingError[event._id] && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-3 bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm"
+          >
+            {bookingError[event._id]}
+          </motion.div>
+        )}
+
         <div className="flex items-center justify-between">
           <div className="text-sm text-gray-500">
             {event.bookingCount || 0} attending • {event.availableSpots} spots left
           </div>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium">
-            Book Now
+          <button 
+            onClick={() => handleBookEvent(event._id, event.title)}
+            disabled={bookingLoading[event._id] || event.availableSpots <= 0}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              event.availableSpots <= 0
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : bookingLoading[event._id]
+                ? 'bg-blue-400 text-white cursor-wait'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            {bookingLoading[event._id] ? (
+              <div className="flex items-center">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Booking...
+              </div>
+            ) : event.availableSpots <= 0 ? (
+              'Sold Out'
+            ) : (
+              'Book Now'
+            )}
           </button>
         </div>
       </div>

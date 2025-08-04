@@ -32,12 +32,11 @@ const SearchBar = () => {
   ];
 
   const priceRanges = [
-    'Any Price',
     'Free',
-    '$1 - $25',
-    '$26 - $50',
-    '$51 - $100',
-    '$100+'
+    '₹1 - ₹25',
+    '₹26 - ₹50',
+    '₹51 - ₹100',
+    '₹100+'
   ];
 
   const handleChange = (field) => (event) => {

@@ -36,20 +36,22 @@ const OrganizerDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const [analyticsRes, eventsRes] = await Promise.all([
-        axios.get('http://localhost:4000/api/analytics/organizer'),
-        axios.get('http://localhost:4000/api/events/organizer/my-events?limit=5')
-      ]);
-
-      const analytics = analyticsRes.data;
+      const eventsRes = await axios.get('http://localhost:4000/api/events/organizer/my-events?limit=5');
+      
+      // Calculate stats from events data
+      const events = eventsRes.data.events;
+      const totalEvents = events.length;
+      const totalBookings = events.reduce((sum, event) => sum + (event.bookingCount || 0), 0);
+      const totalRevenue = events.reduce((sum, event) => sum + ((event.bookingCount || 0) * event.price), 0);
+      
       setStats({
-        totalEvents: analytics.summary.totalEvents,
-        totalBookings: analytics.summary.confirmedBookings,
-        totalRevenue: analytics.summary.confirmedRevenue,
+        totalEvents,
+        totalBookings,
+        totalRevenue,
         averageRating: 4.5 // Mock data for now
       });
 
-      setRecentEvents(eventsRes.data.events);
+      setRecentEvents(events);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {
@@ -228,13 +230,7 @@ const OrganizerDashboard = () => {
             color="bg-green-500"
             onClick={() => window.location.href = '/dashboard/bookings'}
           />
-          <QuickActionCard
-            title="Analytics"
-            description="View detailed event performance"
-            icon={TrendingIcon}
-            color="bg-purple-500"
-            onClick={() => window.location.href = '/dashboard/analytics'}
-          />
+
         </div>
       </div>
 

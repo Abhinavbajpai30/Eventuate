@@ -60,11 +60,17 @@ const CreateEvent = () => {
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const imageUrls = files.map(file => URL.createObjectURL(file));
-    setFormData(prev => ({
-      ...prev,
-      images: [...prev.images, ...imageUrls]
-    }));
+    
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFormData(prev => ({
+          ...prev,
+          images: [...prev.images, e.target.result]
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   const removeImage = (index) => {
@@ -81,13 +87,21 @@ const CreateEvent = () => {
     setSuccess('');
 
     try {
-      const response = await axios.post('http://localhost:4000/api/events', formData);
+      // Set status as published when creating the event
+      const eventData = { ...formData, status: 'published' };
+      const response = await axios.post('http://localhost:4000/api/events', eventData);
       setSuccess('Event created successfully!');
       setTimeout(() => {
         window.location.href = '/dashboard/events';
       }, 2000);
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to create event');
+      // Handle validation errors
+      if (error.response?.data?.errors) {
+        const errorMessages = error.response.data.errors.map(err => err.msg).join(', ');
+        setError(errorMessages);
+      } else {
+        setError(error.response?.data?.message || 'Failed to create event');
+      }
     } finally {
       setLoading(false);
     }
@@ -103,7 +117,13 @@ const CreateEvent = () => {
       await axios.post('http://localhost:4000/api/events', draftData);
       setSuccess('Draft saved successfully!');
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to save draft');
+      // Handle validation errors
+      if (error.response?.data?.errors) {
+        const errorMessages = error.response.data.errors.map(err => err.msg).join(', ');
+        setError(errorMessages);
+      } else {
+        setError(error.response?.data?.message || 'Failed to save draft');
+      }
     } finally {
       setLoading(false);
     }

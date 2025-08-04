@@ -1,5 +1,6 @@
 const express = require('express');
 const { body, validationResult, query } = require('express-validator');
+const QRCode = require('qrcode');
 const Booking = require('../models/Booking');
 const Event = require('../models/Event');
 const auth = require('../middleware/auth');
@@ -177,10 +178,16 @@ router.get('/events/:eventId/bookings', auth, async (req, res) => {
 // @desc    Update booking status
 // @access  Private
 router.put('/:id', auth, [
-  body('status').isIn(['confirmed', 'pending', 'cancelled']).withMessage('Invalid status'),
-  body('checkInStatus').optional().isBoolean().withMessage('Check-in status must be boolean')
+  body('status').optional().isIn(['confirmed', 'pending', 'cancelled']).withMessage('Invalid status'),
+  body('checkInStatus').optional().custom((value) => {
+    if (value !== undefined && typeof value !== 'boolean') {
+      throw new Error('Check-in status must be a boolean');
+    }
+    return true;
+  })
 ], async (req, res) => {
   try {
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -292,53 +299,146 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   GET /api/bookings/analytics/event/:eventId
-// @desc    Get booking analytics for an event (organizer only)
+
+
+// @route   GET /api/bookings/:id/qr
+// @desc    Generate QR code for booking
 // @access  Private
-router.get('/analytics/event/:eventId', auth, async (req, res) => {
+router.get('/:id/qr', auth, async (req, res) => {
   try {
-    const { eventId } = req.params;
+    const booking = await Booking.findById(req.params.id)
+      .populate('event', 'title dateTime location organizer')
+      .populate('attendee', 'name email');
 
-    // Check if event exists and user is the organizer
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
     }
 
-    if (event.organizer.toString() !== req.user.id) {
-      return res.status(403).json({ message: 'Not authorized to view event analytics' });
+    // Check authorization - only attendee or organizer can access
+    const isOrganizer = booking.event.organizer.toString() === req.user.id;
+    const isAttendee = booking.attendee._id.toString() === req.user.id;
+
+    if (!isOrganizer && !isAttendee) {
+      return res.status(403).json({ message: 'Not authorized to access this QR code' });
     }
 
-    // Get booking statistics
-    const stats = await Booking.getBookingStats(eventId);
+    // Only generate QR for confirmed bookings
+    if (booking.status !== 'confirmed') {
+      return res.status(400).json({ message: 'QR code only available for confirmed bookings' });
+    }
 
-    // Get booking trends over time
-    const bookingTrends = await Booking.aggregate([
-      { $match: { event: event._id } },
-      {
-        $group: {
-          _id: {
-            $dateToString: { format: "%Y-%m-%d", date: "$bookingDate" }
-          },
-          count: { $sum: 1 },
-          revenue: { $sum: "$totalAmount" }
-        }
-      },
-      { $sort: { "_id": 1 } }
-    ]);
+    // Create QR data with booking information
+    const qrData = {
+      bookingId: booking._id,
+      eventId: booking.event._id,
+      attendeeId: booking.attendee._id,
+      attendeeName: booking.attendee.name,
+      eventTitle: booking.event.title,
+      ticketCount: booking.ticketCount,
+      timestamp: new Date().toISOString()
+    };
+
+    // Generate QR code as data URL
+    const qrCodeDataURL = await QRCode.toDataURL(JSON.stringify(qrData), {
+      errorCorrectionLevel: 'M',
+      type: 'image/png',
+      quality: 0.92,
+      margin: 1,
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF'
+      }
+    });
 
     res.json({
-      event: {
-        id: event._id,
-        title: event.title,
-        capacity: event.capacity,
-        price: event.price
-      },
-      stats,
-      bookingTrends
+      qrCode: qrCodeDataURL,
+      booking: booking.toBookingJSON()
     });
   } catch (error) {
-    console.error('Get booking analytics error:', error);
+    console.error('Generate QR code error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @route   POST /api/bookings/qr/verify
+// @desc    Verify QR code and check-in attendee
+// @access  Private
+router.post('/qr/verify', auth, [
+  body('qrData').notEmpty().withMessage('QR data is required')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { qrData } = req.body;
+    let parsedData;
+
+    try {
+      parsedData = JSON.parse(qrData);
+    } catch (error) {
+      return res.status(400).json({ message: 'Invalid QR code format' });
+    }
+
+    const { bookingId, eventId } = parsedData;
+
+    if (!bookingId || !eventId) {
+      return res.status(400).json({ message: 'Invalid QR code data' });
+    }
+
+    // Find the booking
+    const booking = await Booking.findById(bookingId)
+      .populate('event', 'title dateTime location organizer')
+      .populate('attendee', 'name email phone');
+
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    // Verify that the QR code is for the correct event
+    if (booking.event._id.toString() !== eventId) {
+      return res.status(400).json({ message: 'QR code does not match event' });
+    }
+
+    // Check if user is the organizer
+    if (booking.event.organizer.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Only event organizers can scan QR codes' });
+    }
+
+    // Check if booking is confirmed
+    if (booking.status !== 'confirmed') {
+      return res.status(400).json({ message: 'Booking is not confirmed' });
+    }
+
+    // Check if already checked in
+    if (booking.checkInStatus) {
+      return res.status(400).json({ 
+        message: 'Attendee already checked in',
+        booking: booking.toBookingJSON(),
+        alreadyCheckedIn: true
+      });
+    }
+
+    // Check-in the attendee
+    booking.checkInStatus = true;
+    booking.checkInTime = new Date();
+    await booking.save();
+
+    res.json({
+      message: 'Attendee checked in successfully',
+      booking: booking.toBookingJSON(),
+      attendee: {
+        name: booking.attendee.name,
+        email: booking.attendee.email,
+        phone: booking.attendee.phone,
+        ticketCount: booking.ticketCount,
+        totalAmount: booking.totalAmount,
+        specialRequests: booking.specialRequests
+      }
+    });
+  } catch (error) {
+    console.error('Verify QR code error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });

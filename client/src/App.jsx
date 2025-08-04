@@ -10,6 +10,12 @@ import DashboardLayout from './components/dashboard/DashboardLayout';
 import OrganizerDashboard from './components/dashboard/OrganizerDashboard';
 import CreateEvent from './components/dashboard/CreateEvent';
 import AttendeeDashboard from './components/dashboard/AttendeeDashboard';
+import MyBookings from './components/dashboard/MyBookings';
+import ManageBookings from './components/dashboard/ManageBookings';
+import QRScanner from './components/dashboard/QRScanner';
+import Settings from './components/dashboard/Settings';
+import About from './components/About';
+import Contact from './components/Contact';
 import './App.css';
 
 // Component to determine which dashboard to show based on user role
@@ -25,6 +31,19 @@ const DashboardRouter = () => {
   return <AttendeeDashboard />;
 };
 
+// Component to determine which bookings page to show based on user role
+const BookingsRouter = () => {
+  const { user } = useAuth();
+  
+  // If user is organizer or has 'both' account type, show manage bookings
+  if (user?.accountType === 'organizer' || user?.accountType === 'both') {
+    return <ManageBookings />;
+  }
+  
+  // Default to attendee bookings
+  return <MyBookings />;
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -33,6 +52,8 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route
             path="/profile"
             element={
@@ -88,49 +109,28 @@ function App() {
             element={
               <PrivateRoute>
                 <DashboardLayout currentView="bookings">
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">My Bookings</h2>
-                    <p className="text-gray-600">Booking management coming soon...</p>
-                  </div>
+                  <BookingsRouter />
                 </DashboardLayout>
               </PrivateRoute>
             }
           />
           <Route
-            path="/dashboard/analytics"
+            path="/dashboard/qr-scanner"
             element={
               <PrivateRoute>
-                <DashboardLayout currentView="analytics">
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Analytics</h2>
-                    <p className="text-gray-600">Analytics dashboard coming soon...</p>
-                  </div>
+                <DashboardLayout currentView="qr-scanner">
+                  <QRScanner />
                 </DashboardLayout>
               </PrivateRoute>
             }
           />
-          <Route
-            path="/dashboard/insights"
-            element={
-              <PrivateRoute>
-                <DashboardLayout currentView="insights">
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Personal Insights</h2>
-                    <p className="text-gray-600">Personal insights coming soon...</p>
-                  </div>
-                </DashboardLayout>
-              </PrivateRoute>
-            }
-          />
+
           <Route
             path="/dashboard/settings"
             element={
               <PrivateRoute>
                 <DashboardLayout currentView="settings">
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Settings</h2>
-                    <p className="text-gray-600">Settings page coming soon...</p>
-                  </div>
+                  <Settings />
                 </DashboardLayout>
               </PrivateRoute>
             }

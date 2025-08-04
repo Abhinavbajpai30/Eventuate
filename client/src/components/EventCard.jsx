@@ -22,7 +22,7 @@ const EventCard = ({ event }) => {
 
   const formatPrice = (price) => {
     if (price === 0) return 'Free';
-    return `$${price}`;
+    return `₹${price}`;
   };
 
   return (
@@ -34,7 +34,11 @@ const EventCard = ({ event }) => {
         {/* Event Image */}
         <div 
           className="h-48 relative bg-cover bg-center"
-          style={{ backgroundImage: `url(${event.image})` }}
+          style={{ 
+            backgroundImage: event.images && event.images.length > 0 
+              ? `url(${event.images[0]})` 
+              : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+          }}
         >
           {/* Price Badge */}
           <div className="absolute top-3 right-3 z-10">

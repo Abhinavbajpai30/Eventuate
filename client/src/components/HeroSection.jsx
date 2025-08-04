@@ -1,7 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleFindEvents = () => {
+    navigate('/dashboard/discover');
+  };
+
+  const handleListEvent = () => {
+    navigate('/dashboard/events/create');
+  };
+
   return (
     <section className="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex items-center relative overflow-hidden pt-8">
       {/* Background Pattern */}
@@ -37,7 +48,10 @@ const HeroSection = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:from-yellow-500 hover:to-orange-600">
+                  <button 
+                    onClick={handleFindEvents}
+                    className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:from-yellow-500 hover:to-orange-600"
+                  >
                     Find Events
                   </button>
                 </motion.div>
@@ -46,7 +60,10 @@ const HeroSection = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-200">
+                  <button 
+                    onClick={handleListEvent}
+                    className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-200"
+                  >
                     List Your Event
                   </button>
                 </motion.div>
