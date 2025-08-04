@@ -5,9 +5,6 @@ const Booking = require('../models/Booking');
 const auth = require('../middleware/auth');
 const router = express.Router();
 
-// @route   GET /api/events
-// @desc    Browse events with filters
-// @access  Public
 router.get('/', [
   query('category').optional().isIn(['Music', 'Food & Drink', 'Workshops', 'Networking', 'Sports', 'Arts', 'Technology', 'Fitness']),
   query('status').optional().isIn(['draft', 'published', 'cancelled', 'completed']),
@@ -39,7 +36,6 @@ router.get('/', [
       limit = 12
     } = req.query;
 
-    // Build filter object
     const filter = { status };
 
     if (category) filter.category = category;
@@ -76,7 +72,6 @@ router.get('/', [
       Event.countDocuments(filter)
     ]);
 
-    // Get booking counts for each event
     const eventsWithBookings = await Promise.all(
       events.map(async (event) => {
         const bookingCount = await Booking.countDocuments({ 
@@ -106,9 +101,6 @@ router.get('/', [
   }
 });
 
-// @route   POST /api/events
-// @desc    Create new event (organizer only)
-// @access  Private
 router.post('/', auth, [
   body('title').trim().isLength({ min: 3, max: 100 }).withMessage('Title must be between 3 and 100 characters'),
   body('description').trim().isLength({ min: 10, max: 2000 }).withMessage('Description must be between 10 and 2000 characters'),
@@ -129,7 +121,6 @@ router.post('/', auth, [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Check if user is organizer
     if (!['organizer', 'both'].includes(req.user.accountType)) {
       return res.status(403).json({ message: 'Only organizers can create events' });
     }
@@ -163,7 +154,6 @@ router.post('/', auth, [
 
     await event.save();
 
-    // Populate organizer info
     await event.populate('organizer', 'name email');
 
     res.status(201).json({
@@ -176,9 +166,6 @@ router.post('/', auth, [
   }
 });
 
-// @route   GET /api/events/:id
-// @desc    Get single event
-// @access  Public
 router.get('/:id', async (req, res) => {
   try {
     const event = await Event.findById(req.params.id)
@@ -189,7 +176,6 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Event not found' });
     }
 
-    // Get booking count
     const bookingCount = await Booking.countDocuments({ 
       event: event._id, 
       status: 'confirmed' 
@@ -208,9 +194,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// @route   PUT /api/events/:id
-// @desc    Update event (organizer only)
-// @access  Private
 router.put('/:id', auth, [
   body('title').optional().trim().isLength({ min: 3, max: 100 }).withMessage('Title must be between 3 and 100 characters'),
   body('description').optional().trim().isLength({ min: 10, max: 2000 }).withMessage('Description must be between 10 and 2000 characters'),
@@ -232,12 +215,10 @@ router.put('/:id', auth, [
       return res.status(404).json({ message: 'Event not found' });
     }
 
-    // Check if user is the organizer
     if (event.organizer.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to update this event' });
     }
 
-    // Update event
     Object.keys(req.body).forEach(key => {
       if (key === 'location') {
         event.location = { ...event.location, ...req.body.location };
@@ -259,9 +240,6 @@ router.put('/:id', auth, [
   }
 });
 
-// @route   DELETE /api/events/:id
-// @desc    Delete event (organizer only)
-// @access  Private
 router.delete('/:id', auth, async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
@@ -270,12 +248,10 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: 'Event not found' });
     }
 
-    // Check if user is the organizer
     if (event.organizer.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to delete this event' });
     }
 
-    // Check if event has bookings
     const bookingCount = await Booking.countDocuments({ event: event._id });
     if (bookingCount > 0) {
       return res.status(400).json({ message: 'Cannot delete event with existing bookings' });
@@ -290,9 +266,6 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   GET /api/events/organizer/my-events
-// @desc    Get organizer's events
-// @access  Private
 router.get('/organizer/my-events', auth, async (req, res) => {
   try {
     const { status, page = 1, limit = 10 } = req.query;
@@ -311,7 +284,6 @@ router.get('/organizer/my-events', auth, async (req, res) => {
       Event.countDocuments(filter)
     ]);
 
-    // Get booking counts for each event
     const eventsWithBookings = await Promise.all(
       events.map(async (event) => {
         const bookingCount = await Booking.countDocuments({ 

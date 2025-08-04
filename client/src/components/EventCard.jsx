@@ -31,7 +31,6 @@ const EventCard = ({ event }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="h-full flex flex-col rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 bg-white">
-        {/* Event Image */}
         <div 
           className="h-48 relative bg-cover bg-center"
           style={{ 
@@ -40,7 +39,6 @@ const EventCard = ({ event }) => {
               : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
           }}
         >
-          {/* Price Badge */}
           <div className="absolute top-3 right-3 z-10">
             <span className={`px-3 py-1 rounded-full text-white font-semibold text-sm ${
               event.isFree ? 'bg-green-500' : 'bg-blue-500'
@@ -49,7 +47,6 @@ const EventCard = ({ event }) => {
             </span>
           </div>
 
-          {/* Category Badge */}
           <div className="absolute top-3 left-3 z-10">
             <span className="bg-white/90 text-gray-800 px-2 py-1 rounded-full text-xs font-medium">
               {event.category}
@@ -58,12 +55,10 @@ const EventCard = ({ event }) => {
         </div>
 
         <div className="flex-grow p-6">
-          {/* Event Title */}
           <h3 className="text-xl font-semibold mb-4 leading-tight text-gray-800">
             {event.title}
           </h3>
 
-          {/* Event Details */}
           <div className="mb-6 space-y-2">
             <div className="flex items-center text-gray-600">
               <CalendarToday className="text-gray-400 mr-2 text-sm" />
@@ -88,7 +83,6 @@ const EventCard = ({ event }) => {
             </div>
           </div>
 
-          {/* Rating */}
           <div className="flex items-center mb-6">
             <Rating
               value={4.5}
@@ -101,7 +95,6 @@ const EventCard = ({ event }) => {
             </span>
           </div>
 
-          {/* Price and CTA */}
           <div className="flex justify-between items-center">
             <span className={`text-xl font-bold ${
               event.isFree ? 'text-green-500' : 'text-blue-500'

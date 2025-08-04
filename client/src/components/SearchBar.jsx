@@ -48,7 +48,6 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     console.log('Search data:', searchData);
-    // Handle search functionality
   };
 
   return (
@@ -64,7 +63,6 @@ const SearchBar = () => {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-            {/* Search Input */}
             <div className="md:col-span-2">
               <TextField
                 fullWidth
@@ -88,7 +86,6 @@ const SearchBar = () => {
               />
             </div>
 
-            {/* Location */}
             <div>
               <TextField
                 fullWidth
@@ -112,7 +109,6 @@ const SearchBar = () => {
               />
             </div>
 
-            {/* Date */}
             <div>
               <TextField
                 fullWidth
@@ -136,7 +132,6 @@ const SearchBar = () => {
               />
             </div>
 
-            {/* Category */}
             <div>
               <FormControl fullWidth>
                 <InputLabel>Category</InputLabel>
@@ -166,7 +161,6 @@ const SearchBar = () => {
               </FormControl>
             </div>
 
-            {/* Price Range */}
             <div>
               <FormControl fullWidth>
                 <InputLabel>Price</InputLabel>
@@ -197,7 +191,6 @@ const SearchBar = () => {
             </div>
           </div>
 
-          {/* Search Button */}
           <div className="text-center mt-8">
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -213,7 +206,6 @@ const SearchBar = () => {
             </motion.div>
           </div>
 
-          {/* Quick Filters */}
           <div className="mt-8 flex gap-2 flex-wrap justify-center items-center">
             <span className="text-sm text-gray-600 mr-2">Popular:</span>
             {['Free Events', 'This Weekend', 'Music', 'Networking'].map((filter) => (

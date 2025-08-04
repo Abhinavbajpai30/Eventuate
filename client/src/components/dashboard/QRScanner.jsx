@@ -14,7 +14,6 @@ import {
 import { Html5Qrcode } from 'html5-qrcode';
 import axios from 'axios';
 
-// Add global styles for html5-qrcode
 const qrStyles = `
   #qr-reader video {
     width: 100% !important;
@@ -52,27 +51,23 @@ const QRScanner = () => {
   const [scanError, setScanError] = useState('');
   const [attendeeInfo, setAttendeeInfo] = useState(null);
   const [showAttendeeModal, setShowAttendeeModal] = useState(false);
-  const [cameraStatus, setCameraStatus] = useState(''); // loading, ready, error
+  const [cameraStatus, setCameraStatus] = useState(''); 
   const [cameras, setCameras] = useState([]);
   const [selectedCamera, setSelectedCamera] = useState('');
   const html5QrcodeRef = useRef(null);
 
   useEffect(() => {
-    // Inject styles for html5-qrcode
     const styleElement = document.createElement('style');
     styleElement.textContent = qrStyles;
     document.head.appendChild(styleElement);
     
-    // Get available cameras on mount
     getCameras();
     
     return () => {
-      // Cleanup scanner on unmount
       if (html5QrcodeRef.current) {
         html5QrcodeRef.current.stop().catch(console.error);
       }
       
-      // Remove injected styles
       document.head.removeChild(styleElement);
     };
   }, []);
@@ -84,7 +79,6 @@ const QRScanner = () => {
       console.log('Available cameras:', devices);
       setCameras(devices);
       
-      // Select environment camera (back camera) if available
       const environmentCamera = devices.find(device => 
         device.label.toLowerCase().includes('back') || 
         device.label.toLowerCase().includes('environment')
@@ -111,16 +105,13 @@ const QRScanner = () => {
         throw new Error('No camera selected');
       }
 
-      // Wait for DOM element to be ready
       await new Promise(resolve => setTimeout(resolve, 100));
 
-      // Check if element exists
       const element = document.getElementById("qr-reader");
       if (!element) {
         throw new Error('Scanner element not found in DOM');
       }
 
-      // Initialize Html5Qrcode
       const html5QrCode = new Html5Qrcode("qr-reader");
       html5QrcodeRef.current = html5QrCode;
 
@@ -132,7 +123,6 @@ const QRScanner = () => {
 
       console.log('Starting camera with ID:', selectedCamera);
       
-      // Start scanning
       await html5QrCode.start(
         selectedCamera,
         config,
@@ -143,7 +133,6 @@ const QRScanner = () => {
       setCameraStatus('ready');
       console.log('QR Scanner started successfully');
       
-      // Debug: Check what elements were created
       setTimeout(() => {
         const qrReaderElement = document.getElementById('qr-reader');
         console.log('QR Reader element:', qrReaderElement);
@@ -201,10 +190,8 @@ const QRScanner = () => {
     console.log(`QR Code scanned: ${decodedText}`);
     
     try {
-      // Stop scanning immediately after successful scan
       stopScanning();
       
-      // Verify QR code with backend
       const response = await axios.post('http://localhost:4000/api/bookings/qr/verify', {
         qrData: decodedText
       });
@@ -213,7 +200,6 @@ const QRScanner = () => {
       setAttendeeInfo(response.data.attendee);
       setShowAttendeeModal(true);
       
-      // Show success message
       setTimeout(() => {
         setScanResult(null);
       }, 3000);
@@ -230,7 +216,6 @@ const QRScanner = () => {
         setScanError(error.response?.data?.message || 'Invalid QR code');
       }
       
-      // Clear error after 5 seconds
       setTimeout(() => {
         setScanError('');
         setScanResult(null);
@@ -239,7 +224,6 @@ const QRScanner = () => {
   };
 
   const onScanFailure = (error) => {
-    // Silent fail - don't log every scan attempt
   };
 
   const AttendeeModal = () => (
@@ -328,13 +312,11 @@ const QRScanner = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      {/* Header */}
       <div className="text-center">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">QR Code Scanner</h1>
         <p className="text-gray-600">Scan attendee QR codes to check them in</p>
       </div>
 
-      {/* Scanner Controls */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
         <div className="text-center">
           {!isScanning ? (
@@ -410,7 +392,6 @@ const QRScanner = () => {
             </div>
           )}
           
-          {/* QR Scanner Container - Always present but hidden */}
           <div className={`mt-6 ${isScanning ? 'block' : 'hidden'}`}>
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
               {cameraStatus === 'loading' ? (
@@ -421,7 +402,6 @@ const QRScanner = () => {
                   </div>
                 </div>
               ) : null}
-              {/* QR Reader element - always present */}
               <div 
                 id="qr-reader" 
                 className={`w-full mx-auto ${cameraStatus === 'loading' ? 'hidden' : 'block'}`}
@@ -436,7 +416,6 @@ const QRScanner = () => {
         </div>
       </div>
 
-      {/* Scan Results */}
       {(scanResult || scanError) && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -473,7 +452,6 @@ const QRScanner = () => {
         </motion.div>
       )}
 
-      {/* Instructions */}
       <div className="bg-blue-50 rounded-xl p-6">
         <h3 className="text-lg font-semibold text-blue-900 mb-3">How to Use</h3>
         <div className="space-y-2 text-blue-800">
@@ -496,7 +474,6 @@ const QRScanner = () => {
         </div>
       </div>
 
-      {/* Attendee Info Modal */}
       {showAttendeeModal && <AttendeeModal />}
     </div>
   );

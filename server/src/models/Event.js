@@ -92,29 +92,24 @@ const eventSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for better query performance
 eventSchema.index({ organizer: 1, status: 1 });
 eventSchema.index({ category: 1, status: 1 });
 eventSchema.index({ dateTime: 1, status: 1 });
 eventSchema.index({ location: 'text', title: 'text', description: 'text' });
 
-// Virtual for checking if event is sold out
 eventSchema.virtual('isSoldOut').get(function() {
   return this.bookings && this.bookings.length >= this.capacity;
 });
 
-// Virtual for available spots
 eventSchema.virtual('availableSpots').get(function() {
   const bookedCount = this.bookings ? this.bookings.length : 0;
   return Math.max(0, this.capacity - bookedCount);
 });
 
-// Virtual for booking count
 eventSchema.virtual('bookingCount').get(function() {
   return this.bookings ? this.bookings.length : 0;
 });
 
-// Method to get event with bookings count
 eventSchema.methods.toEventJSON = function() {
   return {
     id: this._id,

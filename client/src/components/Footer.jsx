@@ -30,7 +30,6 @@ const Footer = () => {
     <footer className="bg-gradient-to-br from-gray-800 to-gray-900 text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-8">
-          {/* Company Info */}
           <div className="md:col-span-2">
             <motion.div
               initial={{ y: 50, opacity: 0 }}
@@ -45,7 +44,6 @@ const Footer = () => {
                 Connecting people through amazing events. Discover, book, and create unforgettable experiences.
               </p>
 
-              {/* Newsletter Signup */}
               <div className="mb-8">
                 <h3 className="text-xl font-semibold mb-4">
                   Stay Updated
@@ -91,7 +89,6 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Footer Links */}
           {Object.entries(footerLinks).map(([category, links], index) => (
             <div key={category}>
               <motion.div
@@ -120,13 +117,11 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-700 mt-12 pt-8">
-          {/* Bottom Footer */}
           <div className="flex justify-between items-center flex-wrap gap-4">
             <p className="text-gray-400 text-sm">
               © 2024 Eventuate. All rights reserved.
             </p>
 
-            {/* Social Links */}
             <div className="flex gap-4">
               {socialLinks.map((social, index) => (
                 <motion.div

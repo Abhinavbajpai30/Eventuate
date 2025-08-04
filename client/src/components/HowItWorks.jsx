@@ -11,22 +11,18 @@ const StepCard = ({ step, index }) => {
       viewport={{ once: true }}
     >
       <div className="h-full p-8 rounded-3xl bg-gradient-to-br from-white to-gray-50 border border-gray-200/50 relative overflow-hidden shadow-lg">
-        {/* Step Number */}
-        <div className="absolute top-5 right-5 w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white flex items-center justify-center font-bold text-lg">
+        <div className="absolute top-5 right-5 w-10 h -10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white flex items-center justify-center font-bold text-lg">
           {index + 1}
         </div>
 
-        {/* Icon */}
         <div className="text-6xl text-center mb-8 mt-4">
           {step.icon}
         </div>
 
-        {/* Title */}
         <h3 className="text-2xl font-semibold mb-4 text-center text-gray-800">
           {step.title}
         </h3>
 
-        {/* Description */}
         <p className="text-gray-600 text-center leading-relaxed">
           {step.description}
         </p>
@@ -45,7 +41,6 @@ const HowItWorks = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          {/* Section Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               How It Works
@@ -55,7 +50,6 @@ const HowItWorks = () => {
             </p>
           </div>
 
-          {/* Steps Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {howItWorks.map((step, index) => (
               <div key={step.id}>
@@ -64,7 +58,6 @@ const HowItWorks = () => {
             ))}
           </div>
 
-          {/* Connecting Lines (Desktop Only) */}
           <div className="hidden md:block relative mt-[-2rem] mb-8">
             <div className="absolute top-1/2 left-1/3 w-1/3 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 transform -translate-y-1/2" />
           </div>

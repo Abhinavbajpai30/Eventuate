@@ -14,7 +14,6 @@ const FeaturedEvents = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          {/* Section Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               Trending Events
@@ -25,7 +24,6 @@ const FeaturedEvents = () => {
             </p>
           </div>
 
-          {/* Events Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredEvents.map((event, index) => (
               <motion.div
@@ -40,7 +38,6 @@ const FeaturedEvents = () => {
             ))}
           </div>
 
-          {/* View All Button */}
           <div className="text-center mt-16">
             <motion.div
               whileHover={{ scale: 1.05 }}

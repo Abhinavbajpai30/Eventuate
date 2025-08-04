@@ -87,7 +87,6 @@ const CreateEvent = () => {
     setSuccess('');
 
     try {
-      // Set status as published when creating the event
       const eventData = { ...formData, status: 'published' };
       const response = await axios.post('http://localhost:4000/api/events', eventData);
       setSuccess('Event created successfully!');
@@ -95,7 +94,6 @@ const CreateEvent = () => {
         window.location.href = '/dashboard/events';
       }, 2000);
     } catch (error) {
-      // Handle validation errors
       if (error.response?.data?.errors) {
         const errorMessages = error.response.data.errors.map(err => err.msg).join(', ');
         setError(errorMessages);
@@ -117,7 +115,6 @@ const CreateEvent = () => {
       await axios.post('http://localhost:4000/api/events', draftData);
       setSuccess('Draft saved successfully!');
     } catch (error) {
-      // Handle validation errors
       if (error.response?.data?.errors) {
         const errorMessages = error.response.data.errors.map(err => err.msg).join(', ');
         setError(errorMessages);
@@ -173,7 +170,6 @@ const CreateEvent = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Basic Information */}
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Basic Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -227,7 +223,6 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          {/* Date and Time */}
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Date & Time</h2>
             <div>
@@ -245,7 +240,6 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          {/* Location */}
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Location</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -310,7 +304,6 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          {/* Pricing & Capacity */}
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Pricing & Capacity</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -348,7 +341,6 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          {/* Tags */}
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Tags</h2>
             <div>
@@ -368,7 +360,6 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          {/* Images */}
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Event Images</h2>
             <div>
@@ -406,7 +397,6 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          {/* Submit Buttons */}
           <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
             <button
               type="button"

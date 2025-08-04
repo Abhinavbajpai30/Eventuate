@@ -15,7 +15,6 @@ const HeroSection = () => {
 
   return (
     <section className="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex items-center relative overflow-hidden pt-8">
-      {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0" style={{
           backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'
@@ -24,7 +23,6 @@ const HeroSection = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Content */}
           <div className="lg:col-span-1">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
@@ -71,7 +69,6 @@ const HeroSection = () => {
             </motion.div>
           </div>
 
-          {/* Hero Image */}
           <div className="lg:col-span-1">
             <motion.div
               initial={{ x: 100, opacity: 0 }}
@@ -85,10 +82,8 @@ const HeroSection = () => {
                     backgroundImage: 'url("https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop")'
                   }}
                 >
-                  {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-600/30 rounded-xl" />
                   
-                  {/* Floating Elements */}
                   <motion.div
                     animate={{ y: [-10, 10, -10] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}

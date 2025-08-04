@@ -82,7 +82,6 @@ const DashboardLayout = ({ children, currentView }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
@@ -90,11 +89,9 @@ const DashboardLayout = ({ children, currentView }) => {
         />
       )}
 
-      {/* Sidebar */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <div className="flex flex-col w-64">
           <div className="flex flex-col h-full bg-white shadow-xl">
-            {/* Logo */}
             <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
               <motion.h1 
                 whileHover={{ scale: 1.05 }}
@@ -106,7 +103,6 @@ const DashboardLayout = ({ children, currentView }) => {
               </motion.h1>
             </div>
 
-            {/* Role Toggle */}
             {user?.accountType === 'both' && (
               <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
@@ -121,7 +117,6 @@ const DashboardLayout = ({ children, currentView }) => {
               </div>
             )}
 
-            {/* Navigation */}
             <nav className="flex-1 px-6 py-4 space-y-2">
               {getMenuItems().map((item) => {
                 const Icon = item.icon;
@@ -149,7 +144,6 @@ const DashboardLayout = ({ children, currentView }) => {
               })}
             </nav>
 
-            {/* User Info */}
             <div className="px-6 py-4 border-t border-gray-200">
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
@@ -171,7 +165,6 @@ const DashboardLayout = ({ children, currentView }) => {
         </div>
       </div>
 
-      {/* Mobile Sidebar */}
       <motion.div
         initial={{ x: -300 }}
         animate={{ x: sidebarOpen ? 0 : -300 }}
@@ -181,7 +174,6 @@ const DashboardLayout = ({ children, currentView }) => {
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo */}
           <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
             <motion.h1 
               whileHover={{ scale: 1.05 }}
@@ -199,7 +191,6 @@ const DashboardLayout = ({ children, currentView }) => {
             </button>
           </div>
 
-          {/* Role Toggle */}
           {user?.accountType === 'both' && (
             <div className="px-6 py-4 border-b border-gray-200">
               <div className="flex items-center justify-between">
@@ -214,7 +205,6 @@ const DashboardLayout = ({ children, currentView }) => {
             </div>
           )}
 
-          {/* Navigation */}
           <nav className="flex-1 px-6 py-4 space-y-2">
             {getMenuItems().map((item) => {
               const Icon = item.icon;
@@ -242,7 +232,6 @@ const DashboardLayout = ({ children, currentView }) => {
             })}
           </nav>
 
-          {/* User Info */}
           <div className="px-6 py-4 border-t border-gray-200">
             <div className="flex items-center">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
@@ -263,9 +252,7 @@ const DashboardLayout = ({ children, currentView }) => {
         </div>
       </motion.div>
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
         <header className="bg-white shadow-sm border-b border-gray-200">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center">
@@ -296,7 +283,6 @@ const DashboardLayout = ({ children, currentView }) => {
           </div>
         </header>
 
-        {/* Page Content */}
         <main className="flex-1 p-6 overflow-auto">
           {children}
         </main>

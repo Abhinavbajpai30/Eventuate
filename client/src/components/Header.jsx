@@ -91,7 +91,6 @@ const Header = () => {
       <header className="bg-white shadow-md text-gray-800 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
@@ -104,7 +103,6 @@ const Header = () => {
               </Link>
             </motion.div>
 
-            {/* Desktop Navigation */}
             {!isMobile && (
               <nav className="flex items-center gap-6 mx-8">
                 {navItems.map((item) => (
@@ -125,7 +123,6 @@ const Header = () => {
               </nav>
             )}
 
-            {/* Auth Buttons */}
             <div className="flex items-center gap-3 flex-shrink-0">
               {isAuthenticated ? (
                 <>
@@ -182,7 +179,6 @@ const Header = () => {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
             {isMobile && (
               <IconButton
                 color="inherit"
@@ -198,7 +194,6 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Drawer */}
       <Drawer
         variant="temporary"
         open={mobileOpen}

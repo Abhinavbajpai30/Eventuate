@@ -92,7 +92,6 @@ const AttendeeDashboard = () => {
         [eventId]: `Successfully booked ${eventTitle}!` 
       }));
 
-      // Refresh events to update booking counts
       setTimeout(() => {
         fetchEvents();
         setBookingSuccess(prev => ({ ...prev, [eventId]: '' }));
@@ -112,7 +111,6 @@ const AttendeeDashboard = () => {
         [eventId]: errorMessage 
       }));
 
-      // Clear error after 5 seconds
       setTimeout(() => {
         setBookingError(prev => ({ ...prev, [eventId]: '' }));
       }, 5000);
@@ -128,7 +126,6 @@ const AttendeeDashboard = () => {
       transition={{ duration: 0.3 }}
       className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
     >
-      {/* Event Image */}
       <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 relative">
         {event.images && event.images.length > 0 ? (
           <img
@@ -155,7 +152,6 @@ const AttendeeDashboard = () => {
         </div>
       </div>
 
-      {/* Event Details */}
       <div className="p-6">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
@@ -188,7 +184,6 @@ const AttendeeDashboard = () => {
           </div>
         </div>
 
-        {/* Booking Status Messages */}
         {bookingSuccess[event._id] && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -347,7 +342,6 @@ const AttendeeDashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Discover Events</h1>
@@ -362,7 +356,6 @@ const AttendeeDashboard = () => {
         </button>
       </div>
 
-      {/* Search Bar */}
       <div className="relative">
         <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
         <input
@@ -375,10 +368,8 @@ const AttendeeDashboard = () => {
         />
       </div>
 
-      {/* Filters */}
       {showFilters && <FilterSection />}
 
-      {/* Events Grid */}
       {events.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event) => (

@@ -68,12 +68,10 @@ const bookingSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for better query performance
 bookingSchema.index({ event: 1, status: 1 });
 bookingSchema.index({ attendee: 1, status: 1 });
 bookingSchema.index({ bookingDate: -1 });
 
-// Method to get booking with populated data
 bookingSchema.methods.toBookingJSON = function() {
   return {
     id: this._id,
@@ -96,7 +94,6 @@ bookingSchema.methods.toBookingJSON = function() {
   };
 };
 
-// Static method to get booking statistics
 bookingSchema.statics.getBookingStats = async function(eventId) {
   const stats = await this.aggregate([
     { $match: { event: mongoose.Types.ObjectId(eventId) } },

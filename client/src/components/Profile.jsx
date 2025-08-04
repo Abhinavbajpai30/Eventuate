@@ -123,7 +123,6 @@ const Profile = () => {
           transition={{ duration: 0.5 }}
           className="bg-white rounded-2xl shadow-xl p-8"
         >
-          {/* Header */}
           <div className="flex justify-between items-center mb-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
@@ -167,7 +166,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Success/Error Messages */}
           {success && (
             <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
               {success}
@@ -180,11 +178,9 @@ const Profile = () => {
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Basic Information */}
             <div className="space-y-6">
               <h2 className="text-xl font-semibold text-gray-900">Basic Information</h2>
               
-              {/* Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name
@@ -202,7 +198,6 @@ const Profile = () => {
                 )}
               </div>
 
-              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address
@@ -211,7 +206,6 @@ const Profile = () => {
                 <p className="text-sm text-gray-500">Email cannot be changed</p>
               </div>
 
-              {/* Phone */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Phone Number
@@ -230,7 +224,6 @@ const Profile = () => {
                 )}
               </div>
 
-              {/* Location */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Location
@@ -264,7 +257,6 @@ const Profile = () => {
                 )}
               </div>
 
-              {/* Account Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Account Type
@@ -272,7 +264,6 @@ const Profile = () => {
                 <p className="text-gray-900 capitalize">{user.accountType}</p>
               </div>
 
-              {/* Verification Status */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Verification Status
@@ -290,11 +281,9 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Additional Information */}
             <div className="space-y-6">
               <h2 className="text-xl font-semibold text-gray-900">Additional Information</h2>
               
-              {/* Bio */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Bio
@@ -314,7 +303,6 @@ const Profile = () => {
                 )}
               </div>
 
-              {/* Interests */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Interests
@@ -348,7 +336,6 @@ const Profile = () => {
                 )}
               </div>
 
-              {/* Notification Preferences */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Notification Preferences
@@ -379,7 +366,6 @@ const Profile = () => {
                 )}
               </div>
 
-              {/* Account Stats */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Account Statistics

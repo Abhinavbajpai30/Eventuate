@@ -18,29 +18,23 @@ import About from './components/About';
 import Contact from './components/Contact';
 import './App.css';
 
-// Component to determine which dashboard to show based on user role
 const DashboardRouter = () => {
   const { user } = useAuth();
-  
-  // If user is organizer or has 'both' account type, show organizer dashboard
+
   if (user?.accountType === 'organizer' || user?.accountType === 'both') {
     return <OrganizerDashboard />;
   }
-  
-  // Default to attendee dashboard
+
   return <AttendeeDashboard />;
 };
 
-// Component to determine which bookings page to show based on user role
 const BookingsRouter = () => {
   const { user } = useAuth();
-  
-  // If user is organizer or has 'both' account type, show manage bookings
+
   if (user?.accountType === 'organizer' || user?.accountType === 'both') {
     return <ManageBookings />;
   }
-  
-  // Default to attendee bookings
+
   return <MyBookings />;
 };
 

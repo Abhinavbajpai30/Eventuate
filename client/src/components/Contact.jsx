@@ -33,7 +33,6 @@ const Contact = () => {
     setError('');
     setSuccess('');
 
-    // Simulate form submission
     setTimeout(() => {
       setSuccess('Thank you for your message! We\'ll get back to you soon.');
       setFormData({ name: '', email: '', subject: '', message: '' });
@@ -56,7 +55,6 @@ const Contact = () => {
           <h1 className="text-4xl font-bold text-gray-900 mb-6">Contact Us</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
             <div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">Get in Touch</h2>
               <p className="text-gray-600 mb-8">
@@ -106,7 +104,6 @@ const Contact = () => {
               </div>
             </div>
             
-            {/* Contact Form */}
             <div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">Send us a Message</h2>
               

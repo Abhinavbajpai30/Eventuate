@@ -20,7 +20,7 @@ const ManageBookings = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all'); // all, confirmed, pending, cancelled
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     fetchEvents();
@@ -97,7 +97,7 @@ const ManageBookings = () => {
       await axios.put(`http://localhost:4000/api/bookings/${bookingId}`, {
         status: newStatus
       });
-      fetchEventBookings(selectedEvent); // Refresh the list
+      fetchEventBookings(selectedEvent); 
     } catch (error) {
       console.error('Error updating booking status:', error);
       alert('Failed to update booking status');
@@ -109,7 +109,7 @@ const ManageBookings = () => {
       await axios.put(`http://localhost:4000/api/bookings/${bookingId}`, {
         checkInStatus: true
       });
-      fetchEventBookings(selectedEvent); // Refresh the list
+      fetchEventBookings(selectedEvent); 
     } catch (error) {
       console.error('Error checking in attendee:', error);
       alert('Failed to check in attendee');
@@ -266,7 +266,6 @@ const ManageBookings = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Manage Bookings</h1>
@@ -284,7 +283,6 @@ const ManageBookings = () => {
         )}
       </div>
 
-      {/* Event Selector */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Select Event</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -310,7 +308,6 @@ const ManageBookings = () => {
 
       {selectedEvent && (
         <>
-          {/* Filter Tabs */}
           <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
             {[
               { key: 'all', label: 'All Bookings' },
@@ -332,7 +329,6 @@ const ManageBookings = () => {
             ))}
           </div>
 
-          {/* Bookings Grid */}
           {filteredBookings.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredBookings.map((booking) => (

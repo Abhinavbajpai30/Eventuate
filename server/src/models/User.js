@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  // Basic Info
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -26,7 +25,6 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
   
-  // Profile Details
   bio: {
     type: String,
     maxlength: [500, 'Bio cannot exceed 500 characters']
@@ -51,7 +49,6 @@ const userSchema = new mongoose.Schema({
     }
   },
   
-  // Preferences
   interests: [{
     type: String,
     enum: ['Music', 'Food & Drink', 'Workshops', 'Networking', 'Sports', 'Arts', 'Technology', 'Fitness']
@@ -71,7 +68,6 @@ const userSchema = new mongoose.Schema({
     }
   },
   
-  // Event-related
   eventsCreated: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Event'
@@ -81,7 +77,6 @@ const userSchema = new mongoose.Schema({
     ref: 'Event'
   }],
   
-  // Account Info
   isVerified: {
     type: Boolean,
     default: false
@@ -95,7 +90,6 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Hash password before saving
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   
@@ -108,12 +102,10 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-// Method to compare password
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Method to get user profile (without password)
 userSchema.methods.toProfileJSON = function() {
   return {
     id: this._id,

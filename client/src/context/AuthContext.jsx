@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
-  // Set axios default headers
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -25,7 +24,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  // Check if user is authenticated on app load
   useEffect(() => {
     const checkAuth = async () => {
       if (token) {

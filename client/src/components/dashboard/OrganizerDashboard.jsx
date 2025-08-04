@@ -23,7 +23,6 @@ const OrganizerDashboard = () => {
   const [recentEvents, setRecentEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is an organizer
   const isOrganizer = user?.accountType === 'organizer' || user?.accountType === 'both';
 
   useEffect(() => {
@@ -38,7 +37,6 @@ const OrganizerDashboard = () => {
     try {
       const eventsRes = await axios.get('http://localhost:4000/api/events/organizer/my-events?limit=5');
       
-      // Calculate stats from events data
       const events = eventsRes.data.events;
       const totalEvents = events.length;
       const totalBookings = events.reduce((sum, event) => sum + (event.bookingCount || 0), 0);
@@ -48,7 +46,7 @@ const OrganizerDashboard = () => {
         totalEvents,
         totalBookings,
         totalRevenue,
-        averageRating: 4.5 // Mock data for now
+        averageRating: 4.5 
       });
 
       setRecentEvents(events);
@@ -146,7 +144,6 @@ const OrganizerDashboard = () => {
     );
   }
 
-  // If user is not an organizer, show a message
   if (!isOrganizer) {
     return (
       <div className="max-w-7xl mx-auto space-y-8">
@@ -169,7 +166,6 @@ const OrganizerDashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
-      {/* Welcome Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -180,7 +176,6 @@ const OrganizerDashboard = () => {
         <p className="text-blue-100">Here's what's happening with your events today.</p>
       </motion.div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Events"
@@ -212,7 +207,6 @@ const OrganizerDashboard = () => {
         />
       </div>
 
-      {/* Quick Actions */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -234,7 +228,6 @@ const OrganizerDashboard = () => {
         </div>
       </div>
 
-      {/* Recent Events */}
       <div>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Recent Events</h2>

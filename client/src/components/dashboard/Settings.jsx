@@ -27,7 +27,6 @@ const Settings = () => {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('account');
 
-  // Account Settings
   const [accountSettings, setAccountSettings] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -37,7 +36,6 @@ const Settings = () => {
     interests: user?.interests || []
   });
 
-  // Notification Settings
   const [notificationSettings, setNotificationSettings] = useState({
     emailNotifications: true,
     smsNotifications: false,
@@ -48,7 +46,6 @@ const Settings = () => {
     marketingEmails: false
   });
 
-  // Privacy Settings
   const [privacySettings, setPrivacySettings] = useState({
     profileVisibility: 'public',
     showEmail: true,
@@ -58,7 +55,6 @@ const Settings = () => {
     showBookingHistory: true
   });
 
-  // Security Settings
   const [securitySettings, setSecuritySettings] = useState({
     currentPassword: '',
     newPassword: '',
@@ -66,7 +62,6 @@ const Settings = () => {
     showPassword: false
   });
 
-  // App Settings
   const [appSettings, setAppSettings] = useState({
     theme: 'light',
     language: 'en',
@@ -76,7 +71,6 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    // Load user settings from backend
     loadUserSettings();
   }, []);
 
@@ -93,9 +87,6 @@ const Settings = () => {
         location: userData.location || '',
         interests: userData.interests || []
       });
-
-      // Load other settings (these would come from a separate settings endpoint)
-      // For now, using defaults
     } catch (error) {
       console.error('Error loading settings:', error);
     }
@@ -159,8 +150,6 @@ const Settings = () => {
     setSuccess('');
 
     try {
-      // This would be a separate endpoint for notification settings
-      // await axios.put('http://localhost:4000/api/settings/notifications', notificationSettings);
       setSuccess('Notification settings updated successfully!');
       setTimeout(() => setSuccess(''), 3000);
     } catch (error) {
@@ -177,8 +166,6 @@ const Settings = () => {
     setSuccess('');
 
     try {
-      // This would be a separate endpoint for privacy settings
-      // await axios.put('http://localhost:4000/api/settings/privacy', privacySettings);
       setSuccess('Privacy settings updated successfully!');
       setTimeout(() => setSuccess(''), 3000);
     } catch (error) {

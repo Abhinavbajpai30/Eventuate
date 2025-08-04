@@ -15,7 +15,7 @@ import axios from 'axios';
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all'); // all, confirmed, pending, cancelled
+  const [filter, setFilter] = useState('all');
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [qrCode, setQrCode] = useState('');
@@ -81,7 +81,7 @@ const MyBookings = () => {
 
     try {
       await axios.delete(`http://localhost:4000/api/bookings/${bookingId}`);
-      fetchBookings(); // Refresh the list
+      fetchBookings();
     } catch (error) {
       console.error('Error cancelling booking:', error);
       alert('Failed to cancel booking');
@@ -116,12 +116,10 @@ const MyBookings = () => {
 
   const handleDownloadTicket = async (booking) => {
     try {
-      // Set loading state for this specific booking
       setDownloadingTickets(prev => ({ ...prev, [booking._id]: true }));
       
       const response = await axios.get(`http://localhost:4000/api/bookings/${booking._id}/qr`);
       
-      // Create download link and trigger download
       const link = document.createElement('a');
       link.href = response.data.qrCode;
       link.download = `ticket-${booking.event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}-${booking._id}.png`;
@@ -131,7 +129,6 @@ const MyBookings = () => {
       console.error('Error downloading ticket:', error);
       alert('Failed to download ticket. Please try again.');
     } finally {
-      // Clear loading state
       setDownloadingTickets(prev => ({ ...prev, [booking._id]: false }));
     }
   };
@@ -148,7 +145,6 @@ const MyBookings = () => {
       transition={{ duration: 0.3 }}
       className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
     >
-      {/* Event Image */}
       <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 relative">
         {booking.event.images && booking.event.images.length > 0 ? (
           <img
@@ -162,14 +158,12 @@ const MyBookings = () => {
           </div>
         )}
         
-        {/* Status Badge */}
         <div className="absolute top-3 left-3">
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
             {booking.status}
           </span>
         </div>
 
-        {/* Price Badge */}
         <div className="absolute top-3 right-3">
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
             booking.totalAmount === 0 ? 'bg-green-500' : 'bg-blue-500'
@@ -179,7 +173,6 @@ const MyBookings = () => {
         </div>
       </div>
 
-      {/* Booking Details */}
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <span className="text-sm font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
@@ -214,12 +207,10 @@ const MyBookings = () => {
           </div>
         </div>
 
-        {/* Booking Date */}
         <div className="text-xs text-gray-500 mb-4">
           Booked on: {new Date(booking.bookingDate).toLocaleDateString()}
         </div>
 
-        {/* Actions */}
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
             {booking.status === 'confirmed' && (
@@ -275,7 +266,6 @@ const MyBookings = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">My Bookings</h1>
@@ -283,7 +273,6 @@ const MyBookings = () => {
         </div>
       </div>
 
-      {/* Filter Tabs */}
       <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
         {[
           { key: 'all', label: 'All Bookings' },
@@ -305,7 +294,6 @@ const MyBookings = () => {
         ))}
       </div>
 
-      {/* Bookings Grid */}
       {filteredBookings.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredBookings.map((booking) => (
@@ -335,7 +323,6 @@ const MyBookings = () => {
         </div>
       )}
 
-      {/* QR Code Modal */}
       {qrModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <motion.div

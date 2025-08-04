@@ -115,7 +115,6 @@ const SignUp = () => {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            {/* Full Name */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full Name
@@ -138,7 +137,6 @@ const SignUp = () => {
               </div>
             </div>
 
-            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email Address
@@ -161,7 +159,6 @@ const SignUp = () => {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
@@ -195,7 +192,6 @@ const SignUp = () => {
               </div>
             </div>
 
-            {/* Confirm Password */}
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                 Confirm Password
@@ -229,7 +225,6 @@ const SignUp = () => {
               </div>
             </div>
 
-            {/* Phone */}
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                 Phone (Optional)
@@ -251,7 +246,6 @@ const SignUp = () => {
               </div>
             </div>
 
-            {/* Location */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="city" className="block text-sm font-medium text-gray-700">
@@ -288,7 +282,6 @@ const SignUp = () => {
               </div>
             </div>
 
-            {/* Account Type */}
             <div>
               <label htmlFor="accountType" className="block text-sm font-medium text-gray-700">
                 Account Type
@@ -307,14 +300,12 @@ const SignUp = () => {
             </div>
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
               {error}
             </div>
           )}
 
-          {/* Submit Button */}
           <div>
             <button
               type="submit"
@@ -329,7 +320,6 @@ const SignUp = () => {
             </button>
           </div>
 
-          {/* Login Link */}
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}

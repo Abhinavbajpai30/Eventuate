@@ -6,9 +6,6 @@ const Event = require('../models/Event');
 const auth = require('../middleware/auth');
 const router = express.Router();
 
-// @route   POST /api/bookings
-// @desc    Book an event
-// @access  Private
 router.post('/', auth, [
   body('eventId').isMongoId().withMessage('Valid event ID is required'),
   body('ticketCount').isInt({ min: 1 }).withMessage('At least 1 ticket is required'),
@@ -22,7 +19,6 @@ router.post('/', auth, [
 
     const { eventId, ticketCount, specialRequests } = req.body;
 
-    // Check if event exists and is published
     const event = await Event.findById(eventId);
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
@@ -32,12 +28,10 @@ router.post('/', auth, [
       return res.status(400).json({ message: 'Event is not available for booking' });
     }
 
-    // Check if event is in the future
     if (new Date(event.dateTime) <= new Date()) {
       return res.status(400).json({ message: 'Cannot book past events' });
     }
 
-    // Check if user already has a booking for this event
     const existingBooking = await Booking.findOne({
       event: eventId,
       attendee: req.user.id,
@@ -48,7 +42,6 @@ router.post('/', auth, [
       return res.status(400).json({ message: 'You already have a booking for this event' });
     }
 
-    // Check capacity
     const confirmedBookings = await Booking.countDocuments({
       event: eventId,
       status: 'confirmed'
@@ -58,10 +51,8 @@ router.post('/', auth, [
       return res.status(400).json({ message: 'Not enough tickets available' });
     }
 
-    // Calculate total amount
     const totalAmount = event.price * ticketCount;
 
-    // Create booking
     const booking = new Booking({
       event: eventId,
       attendee: req.user.id,
@@ -72,7 +63,6 @@ router.post('/', auth, [
 
     await booking.save();
 
-    // Populate event and attendee info
     await booking.populate([
       { path: 'event', select: 'title dateTime location price' },
       { path: 'attendee', select: 'name email' }
@@ -88,9 +78,6 @@ router.post('/', auth, [
   }
 });
 
-// @route   GET /api/bookings/my-bookings
-// @desc    Get user's bookings
-// @access  Private
 router.get('/my-bookings', auth, async (req, res) => {
   try {
     const { status, page = 1, limit = 10 } = req.query;
@@ -126,15 +113,11 @@ router.get('/my-bookings', auth, async (req, res) => {
   }
 });
 
-// @route   GET /api/events/:id/bookings
-// @desc    Get event bookings (organizer only)
-// @access  Private
 router.get('/events/:eventId/bookings', auth, async (req, res) => {
   try {
     const { eventId } = req.params;
     const { status, page = 1, limit = 20 } = req.query;
 
-    // Check if event exists and user is the organizer
     const event = await Event.findById(eventId);
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
@@ -174,9 +157,6 @@ router.get('/events/:eventId/bookings', auth, async (req, res) => {
   }
 });
 
-// @route   PUT /api/bookings/:id
-// @desc    Update booking status
-// @access  Private
 router.put('/:id', auth, [
   body('status').optional().isIn(['confirmed', 'pending', 'cancelled']).withMessage('Invalid status'),
   body('checkInStatus').optional().custom((value) => {
