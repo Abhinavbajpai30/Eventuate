@@ -184,7 +184,6 @@ router.put('/:id', auth, [
       return res.status(404).json({ message: 'Booking not found' });
     }
 
-    // Check authorization
     const isOrganizer = booking.event.organizer.toString() === req.user.id;
     const isAttendee = booking.attendee._id.toString() === req.user.id;
 
@@ -192,12 +191,11 @@ router.put('/:id', auth, [
       return res.status(403).json({ message: 'Not authorized to update this booking' });
     }
 
-    // Only organizers can change status to confirmed/cancelled
     if (status && !isOrganizer) {
       return res.status(403).json({ message: 'Only organizers can change booking status' });
     }
 
-    // Update booking
+    
     if (status) booking.status = status;
     if (checkInStatus !== undefined) {
       booking.checkInStatus = checkInStatus;
@@ -218,9 +216,6 @@ router.put('/:id', auth, [
   }
 });
 
-// @route   GET /api/bookings/:id
-// @desc    Get single booking
-// @access  Private
 router.get('/:id', auth, async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id)
@@ -231,7 +226,7 @@ router.get('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
-    // Check authorization
+    
     const isOrganizer = booking.event.organizer.toString() === req.user.id;
     const isAttendee = booking.attendee._id.toString() === req.user.id;
 
@@ -246,9 +241,6 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   DELETE /api/bookings/:id
-// @desc    Cancel booking (attendee only)
-// @access  Private
 router.delete('/:id', auth, async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id)
@@ -258,17 +250,17 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
-    // Only attendees can cancel their own bookings
+    
     if (booking.attendee.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to cancel this booking' });
     }
 
-    // Check if event is in the future
+    
     if (new Date(booking.event.dateTime) <= new Date()) {
       return res.status(400).json({ message: 'Cannot cancel booking for past events' });
     }
 
-    // Update booking status to cancelled
+    
     booking.status = 'cancelled';
     await booking.save();
 
@@ -279,11 +271,6 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-
-
-// @route   GET /api/bookings/:id/qr
-// @desc    Generate QR code for booking
-// @access  Private
 router.get('/:id/qr', auth, async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id)
@@ -294,7 +281,7 @@ router.get('/:id/qr', auth, async (req, res) => {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
-    // Check authorization - only attendee or organizer can access
+    
     const isOrganizer = booking.event.organizer.toString() === req.user.id;
     const isAttendee = booking.attendee._id.toString() === req.user.id;
 
@@ -302,12 +289,12 @@ router.get('/:id/qr', auth, async (req, res) => {
       return res.status(403).json({ message: 'Not authorized to access this QR code' });
     }
 
-    // Only generate QR for confirmed bookings
+    
     if (booking.status !== 'confirmed') {
       return res.status(400).json({ message: 'QR code only available for confirmed bookings' });
     }
 
-    // Create QR data with booking information
+    
     const qrData = {
       bookingId: booking._id,
       eventId: booking.event._id,
@@ -318,7 +305,7 @@ router.get('/:id/qr', auth, async (req, res) => {
       timestamp: new Date().toISOString()
     };
 
-    // Generate QR code as data URL
+    
     const qrCodeDataURL = await QRCode.toDataURL(JSON.stringify(qrData), {
       errorCorrectionLevel: 'M',
       type: 'image/png',
@@ -340,9 +327,6 @@ router.get('/:id/qr', auth, async (req, res) => {
   }
 });
 
-// @route   POST /api/bookings/qr/verify
-// @desc    Verify QR code and check-in attendee
-// @access  Private
 router.post('/qr/verify', auth, [
   body('qrData').notEmpty().withMessage('QR data is required')
 ], async (req, res) => {
@@ -367,7 +351,7 @@ router.post('/qr/verify', auth, [
       return res.status(400).json({ message: 'Invalid QR code data' });
     }
 
-    // Find the booking
+    
     const booking = await Booking.findById(bookingId)
       .populate('event', 'title dateTime location organizer')
       .populate('attendee', 'name email phone');
@@ -376,22 +360,22 @@ router.post('/qr/verify', auth, [
       return res.status(404).json({ message: 'Booking not found' });
     }
 
-    // Verify that the QR code is for the correct event
+    
     if (booking.event._id.toString() !== eventId) {
       return res.status(400).json({ message: 'QR code does not match event' });
     }
 
-    // Check if user is the organizer
+
     if (booking.event.organizer.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Only event organizers can scan QR codes' });
     }
 
-    // Check if booking is confirmed
+    
     if (booking.status !== 'confirmed') {
       return res.status(400).json({ message: 'Booking is not confirmed' });
     }
 
-    // Check if already checked in
+    
     if (booking.checkInStatus) {
       return res.status(400).json({ 
         message: 'Attendee already checked in',
@@ -400,7 +384,7 @@ router.post('/qr/verify', auth, [
       });
     }
 
-    // Check-in the attendee
+    
     booking.checkInStatus = true;
     booking.checkInTime = new Date();
     await booking.save();
