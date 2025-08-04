@@ -99,26 +99,6 @@ const TrustSection = () => {
             ))}
           </div>
 
-          <div className="mt-16 text-center">
-            <h3 className="text-xl mb-8 text-white/90">
-              Featured in
-            </h3>
-            <div className="flex justify-center gap-8 flex-wrap">
-              {['TechCrunch', 'Forbes', 'Eventbrite', 'Meetup'].map((brand, index) => (
-                <motion.div
-                  key={brand}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <span className="text-xl font-semibold text-white/80 hover:text-white transition-colors duration-200">
-                    {brand}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
         </motion.div>
       </div>
     </section>
